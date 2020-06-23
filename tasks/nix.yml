@@ -151,13 +151,13 @@
     - not ansible_os_family == "Solaris"
     - consul_snapshot | bool
 
-- block:
-    - name: Start Consul
-      service:
-        name: consul
-        state: started
-        enabled: true
+- name: Start Consul
+  service:
+    name: consul
+    state: started
+    enabled: true
 
+- block:
     - name: Check Consul HTTP API (via TCP socket)
       wait_for:
         delay: 15
