@@ -29,9 +29,6 @@
   ignore_errors: "{{ ansible_check_mode }}"
   notify:
     - restart consul
-  when: consul_services | length > 0
-  notify:
-    - restart consul
 
 - name: Create systemd service for consul connect proxies
   template:
