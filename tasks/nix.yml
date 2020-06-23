@@ -53,7 +53,6 @@
 
 - name: Create TLS configuration
   include_tasks: tls.yml
-  when: consul_tls_enable | bool
 
 - name: Create syslog configuration
   import_tasks: syslog.yml
