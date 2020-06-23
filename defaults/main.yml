@@ -63,7 +63,6 @@ consul_syslog_enable: false
 consul_syslog_facility: "local0"
 consul_configure_syslogd: false
 consul_acl_enable: false
-consul_tls_enable: false
 consul_snapshot: false
 
 # These variables are defined outsied of 'consul_config_defaults' to avoid
@@ -95,33 +94,16 @@ consul_gather_server_facts: false
 ## ACL
 consul_acl_policy: false
 
-consul_tls_src_files: "{{ role_path + '/files' }}"
-consul_tls_dir: "/etc/consul/ssl"
-consul_tls_copy_keys: true
-consul_tls_files_remote_src: false
+consul_tls_src_files_dir: "{{ role_path + '/files' }}"
+consul_tls_src_ca_file: "{{ consul_tls_src_files_dir + '/ca.crt'}}"
+consul_tls_src_server_cert_file: "{{ consul_tls_src_files_dir + '/server.crt'}"
+consul_tls_src_server_key_file: "{{ consul_tls_src_files_dir + '/server.key'}"
 
-# dnsmasq, does this really belong in this role? replace with systemd-resolved?
-consul_dnsmasq_enable: false
-consul_dnsmasq_bind_interfaces: false
-consul_dnsmasq_consul_address: >-
-  {# Use localhost if DNS is listening on all interfaces #}
-  {% if consul_addresses.dns == '0.0.0.0' %}
-  127.0.0.1
-  {% else %}
-  {{- consul_addresses.dns -}}
-  {% endif %}
-consul_dnsmasq_cache: -1
-consul_dnsmasq_servers:
-- 1.1.1.1
-- 8.8.8.8
-- 8.8.4.4
-consul_dnsmasq_revservers: []
-consul_dnsmasq_no_poll: false
-consul_dnsmasq_no_resolv: false
-consul_dnsmasq_local_service: false
-consul_dnsmasq_listen_addresses: []
-consul_delegate_datacenter_dns: false
-consul_iptables_enable: false
+consul_tls_dir: "/etc/consul/ssl"
+consul_tls_ca_cert: "ca.crt"
+consul_tls_server_cert: "server.crt"
+consul_tls_server_key: "server.key"
+consul_tls_copy_files: true
 
 consul_enterprise: false
 # https://www.consul.io/docs/agent/services.html
@@ -141,6 +123,7 @@ consul_client_addr: '127.0.0.1'
 consul_node_role: "client"
 
 ### Consul settings
+consul_config: {}
 consul_config_defaults:
   data_dir: "/var/lib/consul"
   datacenter: "dc1"
@@ -227,9 +210,6 @@ consul_config_defaults:
   disable_keyring_file: false
 
 ## TLS
-  #ca_crt: "ca.crt"
-  #server_crt: "server.crt"
-  #server_key: "server.key"
   verify_incoming: false
   verify_outgoing: false #TODO set to true?
   verify_incoming_rpc: false
@@ -248,23 +228,3 @@ consul_config_defaults:
 # Connect
   connect:
     enabled: false
-
-consul_snapshot_agent_defaults:
-  http_addr: "{% if consul_tls_enable | bool %}https://{% endif %}{{ consul_client_address }}:{% if consul_tls_enable | bool %}{{ consul_ports.https }}{% else %}{{ consul_ports.http }}{% endif %}"
-  ca_file": "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}"
-  cert_file": "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}"
-  key_file": "{{ consul_tls_dir }}/{{ consul_tls_server_key }}"
-  log:
-    level: "INFO"
-    enable_syslog: true
-    syslog_facility: "LOCAL0"
-  snapshot:
-    interval: "1h"
-    retain: "30"
-    stale: false
-    service: "consul_snapshot"
-    deregister_after: "72h"
-    lock_key: "consul_snapshot/lock"
-    max_failures: 3
-  local_storage:
-    path: "{{ consul_config_path }}/snaps"

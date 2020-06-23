@@ -272,6 +272,3 @@
       when: consul_iptables_enable | bool
 
   when: not bootstrap_state.stat.exists
-
-- include_tasks: ../tasks/dnsmasq.yml
-  when: consul_dnsmasq_enable | bool

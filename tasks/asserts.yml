@@ -43,28 +43,6 @@
     - ansible_os_family != 'Windows'
     - consul_iface not in ansible_interfaces
 
-- name: Check iptables on Red Hat, CentOS or Oracle Linux
-  fail:
-    msg: "Use DNSmasq instead of iptables on {{ ansible_distribution }}."
-  when:
-    - consul_iptables_enable | bool
-    - ansible_distribution in ['RedHat', 'CentOS', 'OracleLinux']
-    - ansible_distribution_version is version_compare(6, '>=')
-
-- name: Check for both Dnsmasq and iptables enabled
-  fail:
-    msg: "EONEORTHEOTHER: DNSmasq and iptables together is not supported."
-  when:
-    - consul_dnsmasq_enable | bool
-    - consul_iptables_enable | bool
-
-- name: Check for iptables enabled but no recursors
-  fail:
-    msg: "Recursors are required if iptables is enabled."
-  when:
-    - consul_iptables_enable | bool
-    - consul_recursors | length == 0
-
 - name: Check consul_group_name is included in groups
   fail:
     msg: "consul_group_name must be included in groups."

@@ -118,7 +118,6 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_configure_syslogd`
 
 - Enable configuration of rsyslogd or syslog-ng on Linux. If disabled, Consul will still log to syslog if `consul_syslog_enable` is true, but the syslog daemon won't be configured to write Consul logs to their own logfile.
-  - Override with `CONSUL_CONFIGURE_SYSLOGD` environment variable
 - Default Linux value: *false*
 
 ### `consul_log_path`
@@ -127,7 +126,6 @@ Many role variables can also take their values from environment variables as wel
 - If `consul_syslog_enable` is true
   - Log path for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
 - Default Linux value: `/var/log/consul`
-  - Override with `CONSUL_LOG_PATH` environment variable
 - Default Windows value: `C:\ProgramData\consul\log`
 
 ### `consul_log_file`
@@ -136,46 +134,39 @@ Many role variables can also take their values from environment variables as wel
   - Log file for use in [log_file or -log-file](https://www.consul.io/docs/agent/options.html#_log_file)
 - If `consul_syslog_enable` is true
   - Log file for use in rsyslogd configuration on Linux. Ignored if `consul_configure_syslogd` is false.
-- Override with `CONSUL_LOG_FILE` environment variable
 - Default Linux value: `consul.log`
 
 ### `consul_log_rotate_bytes`
 
 - Log rotate bytes as defined in [log_rotate_bytes or -log-rotate-bytes](https://www.consul.io/docs/agent/options.html#_log_rotate_bytes)
-  - Override with `CONSUL_LOG_ROTATE_BYTES` environment variable
 - Ignored if `consul_syslog_enable` is true
 - Default value: 0
 
 ### `consul_log_rotate_duration`
 
 - Log rotate bytes as defined in [log_rotate_duration or -log-rotate-duration](https://www.consul.io/docs/agent/options.html#_log_rotate_duration)
-  - Override with `CONSUL_LOG_ROTATE_DURATION` environment variable
 - Ignored if `consul_syslog_enable` is true
 - Default value: 24h
 
 ### `consul_log_rotate_max_files`
 
 - Log rotate bytes as defined in [log_rotate_max_files or -log-rotate-max-files](https://www.consul.io/docs/agent/options.html#_log_rotate_max_files)
-  - Override with `CONSUL_LOG_ROTATE_MAX_FILES` environment variable
 - Ignored if `consul_syslog_enable` is true
 - Default value: 0
 
 ### `consul_syslog_facility`
 
 - Syslog facility as defined in [syslog_facility](https://www.consul.io/docs/agent/options.html#syslog_facility)
-  - Override with `CONSUL_SYSLOG_FACILITY` environment variable
 - Default Linux value: local0
 
 ### `syslog_user`
 
 - Owner of `rsyslogd` process on Linux. `consul_log_path`'s ownership is set to this user on Linux. Ignored if `consul_configure_syslogd` is false.
-  - Override with `SYSLOG_USER` environment variable
 - Default Linux value: syslog
 
 ### `syslog_group`
 
 - Group of user running `rsyslogd` process on Linux. `consul_log_path`'s group ownership is set to this group on Linux. Ignored if `consul_configure_syslogd` is false.
-  - Override with `SYSLOG_GROUP` environment variable
 - Default value: adm
 
 ### `consul_run_path`
@@ -208,7 +199,6 @@ Many role variables can also take their values from environment variables as wel
 ### `consul_group_name`
 
 - Inventory group name
-  - Override with `CONSUL_GROUP_NAME` environment variable
 - Default value: consul_instances
 
 ### `consul_retry_interval`
@@ -276,19 +266,16 @@ To make this possible the `delegate_facts` option is used; note that his option 
 ### `consul_datacenter`
 
 - Datacenter label
-  - Override with `CONSUL_DATACENTER` environment variable- Default value: *dc1*
 - Default value: dc1
 
 ### `consul_domain`
 
 - Consul domain name as defined in [domain or -domain](https://www.consul.io/docs/agent/options.html#_domain)
-  - Override with `CONSUL_DOMAIN` environment variable
 - Default value: consul
 
 ### `consul_alt_domain`
 
 - Consul domain name as defined in [alt_domain or -alt-domain](https://www.consul.io/docs/agent/options.html#_alt_domain)
-  - Override with `CONSUL_ALT_DOMAIN` environment variable
 - Default value: Empty string
 
 ### `consul_node_meta`
@@ -307,26 +294,22 @@ consul_node_meta:
 ### `consul_log_level`
 
 - Log level as defined in [log_level or -log-level](https://www.consul.io/docs/agent/options.html#_log_level)
-  - Override with `CONSUL_LOG_LEVEL` environment variable
 - Default value: INFO
 
 ### `consul_syslog_enable`
 
 - Log to syslog as defined in [enable_syslog or -syslog](https://www.consul.io/docs/agent/options.html#_syslog)
-  - Override with `CONSUL_SYSLOG_ENABLE` environment variable
 - Default Linux value: false
 - Default Windows value: false
 
 ### `consul_iface`
 
 - Consul network interface
-  - Override with `CONSUL_IFACE` environment variable
 - Default value: `{{ ansible_default_ipv4.interface }}`
 
 ### `consul_bind_address`
 
 - Bind address
-  - Override with `CONSUL_BIND_ADDRESS` environment variable
 - Default value: default ipv4 address, or address of interface configured by
   `consul_iface`
 
@@ -417,140 +400,112 @@ Notice that the dict object has to use precisely the names stated in the documen
 
 - List of upstream DNS servers
   See [recursors](https://www.consul.io/docs/agent/options.html#recursors)
-  - Override with `CONSUL_RECURSORS` environment variable
 - Default value: Empty list
 
 ### `consul_iptables_enable`
 
 - Whether to enable iptables rules for DNS forwarding to Consul
-  - Override with `CONSUL_IPTABLES_ENABLE` environment variable
 - Default value: false
 
 ### `consul_acl_policy`
 
 - Add basic ACL config file
-  - Override with `CONSUL_ACL_POLICY` environment variable
 - Default value: false
 
 ### `consul_acl_enable`
 
 - Enable ACLs
-  - Override with `CONSUL_ACL_ENABLE` environment variable
 - Default value: false
 
 ### `consul_acl_ttl`
 
 - TTL for ACL's
-  - Override with `CONSUL_ACL_TTL` environment variable
 - Default value: 30s
 
 ### `consul_acl_token_persistence`
 
 - Define if tokens set using the API will be persisted to disk or not
-  - Override with `CONSUL_ACL_TOKEN_PERSISTENCE` environment variable
 - Default value: true
 
 ### `consul_acl_datacenter`
 
 - ACL authoritative datacenter name
-  - Override with `CONSUL_ACL_DATACENTER` environment variable
 - Default value: dc1
 
 ### `consul_acl_down_policy`
 
 - Default ACL down policy
-  - Override with `CONSUL_ACL_DOWN_POLICY` environment variable
 - Default value: allow
 
 ### `consul_acl_token`
 
 - Default ACL token, only set if provided
-  - Override with `CONSUL_ACL_TOKEN` environment variable
 - Default value: ''
 
 ### `consul_acl_agent_token`
 
 - Used for clients and servers to perform internal operations to the service catalog. See: [acl_agent_token](https://www.consul.io/docs/agent/options.html#acl_agent_token)
-  - Override with `CONSUL_ACL_AGENT_TOKEN` environment variable
 - Default value: ''
 
 ### `consul_acl_agent_master_token`
 
 - A [special access token](https://www.consul.io/docs/agent/options.html#acl_agent_master_token) that has agent ACL policy write privileges on each agent where it is configured
-  - Override with `CONSUL_ACL_AGENT_MASTER_TOKEN` environment variable
 - Default value: ''
 
 ### `consul_acl_default_policy`
 
 - Default ACL policy
-  - Override with `CONSUL_ACL_DEFAULT_POLICY` environment variable
 - Default value: allow
 
 ### `consul_acl_master_token`
 
 - ACL master token
-  - Override with `CONSUL_ACL_MASTER_TOKEN` environment variable
 - Default value: UUID
 
 ### `consul_acl_master_token_display`
 
 - Display generated ACL Master Token
-  - Override with `CONSUL_ACL_MASTER_TOKEN_DISPLAY` environment variable
 - Default value: false
 
 ### `consul_acl_replication_enable`
 
 - Enable ACL replication without token (makes it possible to set the token
   trough the API)
-  - Override with `CONSUL_ACL_REPLICATION_TOKEN_ENABLE` environment variable
 - Default value: ''
 
 ### `consul_acl_replication_token`
 
 - ACL replication token
-  - Override with `CONSUL_ACL_REPLICATION_TOKEN_DISPLAY` environment variable
 - Default value: *SN4K3OILSN4K3OILSN4K3OILSN4K3OIL*
-
-### `consul_tls_enable`
-
-- Enable TLS
-  - Override with `CONSUL_ACL_TLS_ENABLE` environment variable
-- Default value: false
 
 ### `consul_src_def`
 
 - Default source directory for TLS files
-  - Override with `CONSUL_ACL_TLS_ENABLE` environment variable
 - Default value: `{{ role_path }}/files`
 
-### `consul_tls_src_files`
+### `consul_tls_src_files_dir`
 
 - User-specified source directory for TLS files
-  - Override with `CONSUL_TLS_SRC_FILES` environment variable
 - Default value: `{{ role_path }}/files`
 
 ### `consul_tls_dir`
 
 - Target directory for TLS files
-  - Override with `CONSUL_TLS_DIR` environment variable
 - Default value: `/etc/consul/ssl`
 
 ### `consul_tls_ca_crt`
 
 - CA certificate filename
-  - Override with `CONSUL_TLS_CA_CRT` environment variable
 - Default value: `ca.crt`
 
 ### `consul_tls_server_crt`
 
 - Server certificate
-  - Override with `CONSUL_TLS_SERVER_CRT` environment variable
 - Default value: `server.crt`
 
 ### `consul_tls_server_key`
 
 - Server key
-  - Override with `CONSUL_TLS_SERVER_KEY` environment variable
 - Default value: `server.key`
 
 ### `consul_tls_files_remote_src`
@@ -586,29 +541,24 @@ Notice that the dict object has to use precisely the names stated in the documen
 ### `consul_tls_verify_incoming`
 
 - Verify incoming connections
-  - Override with `CONSUL_TLS_VERIFY_INCOMING` environment variable
 - Default value: false
 
 ### `consul_tls_verify_outgoing`
 
 - Verify outgoing connections
-  - Override with `CONSUL_TLS_VERIFY_OUTGOING` environment variable
 - Default value: true
 
 ### `consul_tls_verify_incoming_rpc`
 - Verify incoming connections on RPC endpoints (client certificates)
-  - Override with `CONSUL_TLS_VERIFY_INCOMING_RPC` environment variable
 - Default value: false
 
 ### `consul_tls_verify_incoming_https`
 - Verify incoming connections on HTTPS endpoints (client certificates)
-  - Override with `CONSUL_TLS_VERIFY_INCOMING_HTTPS` environment variable
 - Default value: false
 
 ### `consul_tls_verify_server_hostname`
 
 - Verify server hostname
-  - Override with `CONSUL_TLS_VERIFY_SERVER_HOSTNAME` environment variable
 - Default value: false
 
 ### `consul_tls_min_version`
@@ -716,7 +666,6 @@ Autopilot is a set of new features added in Consul 0.8 to allow for automatic op
 https://www.consul.io/docs/guides/autopilot.html
 
 - Enable Autopilot config (will be written to bootsrapper node)
-  - Override with `CONSUL_AUTOPILOT_ENABLE` environment variable
 - Default value: false
 
 #### `consul_autopilot_cleanup_dead_Servers`
@@ -724,7 +673,6 @@ https://www.consul.io/docs/guides/autopilot.html
 Dead servers will periodically be cleaned up and removed from the Raft peer set, to prevent them from interfering with the quorum size and leader elections. This cleanup will also happen whenever a new server is successfully added to the cluster.
 
 - Enable Autopilot config (will be written to bootsrapper node)
-  - Override with `CONSUL_AUTOPILOT_CLEANUP_DEAD_SERVERS` environment variable
 - Default value: false
 
 #### `consul_autopilot_last_contact_threshold`
@@ -732,41 +680,35 @@ Dead servers will periodically be cleaned up and removed from the Raft peer set,
 Used in the serf health check to determine node health.
 
 - Sets the threshold for time since last contact
-  - Override with `CONSUL_AUTOPILOT_LAST_CONTACT_THRESHOLD` environment variable
 - Default value: 200ms
 
 #### `consul_autopilot_max_trailing_logs`
 
 - Used in the serf health check to set a max-number of log entries nodes can trail the leader
-  - Override with `CONSUL_AUTOPILOT_MAX_TRAILING_LOGS` environment variable
 - Default value: 250
 
 
 #### `consul_autopilot_server_stabilization_time`
 
 - Time to allow a new node to stabilize
-  - Override with `CONSUL_AUTOPILOT_SERVER_STABILIZATION_TIME` environment variable
 - Default value: 10s
 
 #### `consul_autopilot_redundancy_zone_tag`
 
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
-- Override with `CONSUL_AUTOPILOT_REDUNDANCY_ZONE_TAG` environment variable
 - Default value: az
 
 #### `consul_autopilot_disable_upgrade_migration`
 
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
-- Override with `CONSUL_AUTOPILOT_DISABLE_UPGRADE_MIGRATION` environment variable
 - Default value: *false*
 
 #### `consul_autopilot_upgrade_version_tag`
 
 _Consul Enterprise Only (requires that CONSUL_ENTERPRISE is set to true)_
 
-- Override with `CONSUL_AUTOPILOT_UPGRADE_VERSION_TAG` environment variable
 - Default value: ''
 
 #### Custom Configuration Section
@@ -999,114 +941,10 @@ There are a number of Ansible ACL variables you can override to further refine y
 
 Check `defaults/main.yml` to see how some of he defaults (i.e. tokens) are automatically generated.
 
-### Dnsmasq DNS Forwarding Support
-
-The role now includes support for [DNS forwarding](https://www.consul.io/docs/guides/forwarding.html) with [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html).
-
-Enable like this:
-
-```
-ansible-playbook -i hosts site.yml --extra-vars "consul_dnsmasq_enable=true"
-```
-
-Then, you can query any of the agents via DNS directly via port 53,
-for example:
-
-```
-dig @consul1.consul consul3.node.consul
-
-; <<>> DiG 9.8.3-P1 <<>> @consul1.consul consul3.node.consul
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29196
-;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
-
-;; QUESTION SECTION:
-;consul3.node.consul.   IN  A
-
-;; ANSWER SECTION:
-consul3.node.consul.  0 IN  A 10.1.42.230
-
-;; Query time: 42 msec
-;; SERVER: 10.1.42.210#53(10.1.42.210)
-;; WHEN: Sun Aug  7 18:06:32 2016
-;;
-```
-
-### `consul_delegate_datacenter_dns`
-- Whether to delegate Consul datacenter DNS domain to Consul
-- Default value: false
-
-### `consul_dnsmasq_enable`
-
-- Whether to install and configure DNS API forwarding on port 53 using DNSMasq
-  - Override with `CONSUL_DNSMASQ_ENABLE` environment variable
-- Default value: false
-
-### `consul_dnsmasq_bind_interfaces`
-
-- Setting this option to _true_ prevents DNSmasq from binding by default 0.0.0.0, but instead instructs it to bind to the specific network interfaces that correspond to the `consul_dnsmasq_listen_addresses` option
-- Default value: false
-
-### `consul_dnsmasq_consul_address`
-
-- Address used by DNSmasq to query consul
-- Default value: `consul_address.dns`
-- Defaults to 127.0.0.1 if consul's DNS is bound to all interfaces (eg `0.0.0.0`)
-
-### `consul_dnsmasq_cache`
-
-- dnsmasq cache-size
-- If smaller then 0, the default dnsmasq setting will be used.
-- Default value: *-1*
-
-### `consul_dnsmasq_servers`
-
-- Upstream DNS servers used by dnsmasq
-- Default value: *8.8.8.8* and *8.8.4.4*
-
-### `consul_dnsmasq_revservers`
-
-- Reverse lookup subnets
-- Default value: *[]*
-
-### `consul_dnsmasq_no_poll`
-
-- Do not poll /etc/resolv.conf
-- Default value: false
-
-### `consul_dnsmasq_no_resolv`
-
-- Ignore /etc/resolv.conf file
-- Default value: false
-
-### `consul_dnsmasq_local_service`
-
-- Only allow requests from local subnets
-- Default value: false
-
-### `consul_dnsmasq_listen_addresses`
-
-- Custom list of addresses to listen on.
-- Default value: *[]*
-
 ### `consul_connect_enabled`
 
 - Enable Consul Connect feature on servers
 - Default value: false
-
-### iptables DNS Forwarding Support
-
-This role can also use iptables instead of Dnsmasq for forwarding DNS queries to Consul. You can enable it like this:
-
-```
-ansible-playbook -i hosts site.yml --extra-vars "consul_iptables_enable=true"
-```
-
-> Note that iptables forwarding and DNSmasq forwarding cannot be used
-> simultaneously and the execution of the role will stop with error if such
-> a configuration is specified.
 
 ### TLS Support
 
@@ -1114,8 +952,8 @@ You can enable TLS encryption by dropping a CA certificate, server certificate, 
 
 By default these are named:
 
-- `ca.crt` (can be overridden by {{ consul_tls_ca_crt }})
-- `server.crt` (can be overridden by {{ consul_tls_server_crt }})
+- `ca.crt` (can be overridden by {{ consul_tls_ca_cert }})
+- `server.crt` (can be overridden by {{ consul_tls_server_cert }})
 - `server.key` (can be overridden by {{ consul_tls_server_key }})
 
 Then either set the environment variable `CONSUL_TLS_ENABLE=true` or use the Ansible variable `consul_tls_enable=true` at role runtime.

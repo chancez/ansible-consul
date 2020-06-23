@@ -13,11 +13,6 @@
 - name: restart connect
   import_tasks: restart_connect.yml
 
-- name: restart dnsmasq
-  service:
-    name: dnsmasq
-    state: restarted
-
 - name: restart rsyslog
   import_tasks: restart_rsyslog.yml
 
