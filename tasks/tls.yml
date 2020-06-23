@@ -11,33 +11,42 @@
         mode: 0755
 
     - name: Copy CA certificate
+      vars:
+        ca_crt: "{{ consul_tls_src_files }}/{{ consul_tls_ca_crt | basename }}"
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
-        src: "{{ consul_tls_src_files }}/{{ consul_tls_ca_crt | basename }}"
+        src: "{{ ca_crt }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_ca_crt }}"
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
         mode: 0644
+      when: "ca_crt is file"
       notify: restart consul
 
     - name: Copy server certificate
+      vars:
+        server_crt: "{{ consul_tls_src_files }}/{{ consul_tls_server_crt | basename }}"
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
-        src: "{{ consul_tls_src_files }}/{{ consul_tls_server_crt | basename }}"
+        src: "{{ server_crt }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_server_crt }}"
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
         mode: 0644
+      when: "server_crt is file"
       notify: restart consul
 
     - name: Copy server key
+      vars:
+        server_key: "{{ consul_tls_src_files }}/{{ consul_tls_server_key | basename }}"
       copy:
         remote_src: "{{ consul_tls_files_remote_src }}"
-        src: "{{ consul_tls_src_files }}/{{ consul_tls_server_key | basename }}"
+        src: "{{ server_key }}"
         dest: "{{ consul_tls_dir }}/{{ consul_tls_server_key }}"
         owner: "{{ consul_user }}"
         group: "{{ consul_group }}"
         mode: 0600
+      when: "server_key is file"
       notify: restart consul
 
   when: consul_tls_copy_keys | bool
